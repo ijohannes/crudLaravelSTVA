@@ -82,54 +82,46 @@ var app = new Vue({
                     this.getData();
                     toastr.success(this.message);
 
-                    // const answers = JSON.stringify(result.value)
-                    // Swal.fire({
-                    //     title: 'All done!',
-                    //     html: `
-                    //         Your answers:
-                    //         <pre><code>${information}</code></pre>
-                    //     `,
-                    //     confirmButtonText: 'registration completed'
-                    // })
                 }
             })
         },
 
-        deleteFact(id){
-            console.log(id);
+        deleteFact(data){
+            console.log(data);
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                   confirmButton: 'btn btn-success',
                   cancelButton: 'btn btn-danger'
                 },
-                buttonsStyling: false
+                buttonsStyling: true
               })
               
               swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                html: "You won't be able to revert this! <br><strong>"+ data.name +"</strong> record",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'No, cancel!',
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
                 reverseButtons: true
-              }).then((result) => {
+              }).then( async(result) => {
                 if (result.isConfirmed) {
-                  swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                  )
+                    let url = '/api/datap/'+data.id;
+                    await axios.delete(url).then(response => {
+                        console.log(response.data)
+                        this.message = response.data;
+                    });
+
+                    this.getData();
+                    toastr.success(this.message);
                 } else if (
                   /* Read more about handling dismissals below */
                   result.dismiss === Swal.DismissReason.cancel
                 ) {
-                  swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                  )
+                   toastr.error('Your file is safe :)!', 'Error'); 
                 }
               })
         }
