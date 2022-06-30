@@ -14,7 +14,7 @@ class ApiDataPController extends Controller
      */
     public function index()
     {
-        return DataP::get();
+        return DataP::orderBy('id','desc')->get();
     }
 
     /**
@@ -35,7 +35,16 @@ class ApiDataPController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $saveinfo = new DataP($request->all());
+        // $saveinfo->save();
+
+        $saveinfo = new DataP;
+        $saveinfo->name = $request->name;
+        $saveinfo->position = $request->position;
+        $saveinfo->salary = $request->salary;
+        $saveinfo->save();
+
+        return 'Data save correctly';
     }
 
     /**

@@ -14,6 +14,8 @@
                         </div>
                     @endif
 
+                    <button type="button" class="btn btn-outline-primary float-right" @click="newFact()">Nuevo</button>
+                    <br><br>
 
                     <table class="table">
                         <thead>
@@ -26,12 +28,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for = "information in info">
-                            <th scope="row">@{{ info }}</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <tr v-for = "info in information">
+                            <th scope="row">@{{ info.id }}</th>
+                            <td>@{{ info.name }}</td>
+                            <td>@{{ info.position }}</td>
+                            <td>@{{ info.salary }}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-info">Editar</button>
+                                <button type="button" class="btn btn-outline-danger" @click="deleteFact(info)">Eliminar</button>
+                            </td>
                             </tr>
                         </tbody>
                     </table>
